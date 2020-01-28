@@ -32,15 +32,15 @@ sub validateGpioUserData{
 	my $value= $_[0];
 	
 	if($value eq("")){
-		return "Feld darf nicht leer sein!";
+		return "Veld mag niet leeg zijn!";
 	}
 	
 	if ($value !~ /^\d+?$/) {
-		return "Nur Zahlen sind erlaubt";
+		return "Alleen nummers zijn toegestaan";
 	}
 	
 	if($value > 27 || $value < 2){
-		return "Nur Werte zwischen 2 und 27 sind erlaubt!";
+		return "Alleen waarden tussen 2 en 27 zijn toegestaan!";
 	}
 	return "ok";
 }
@@ -90,7 +90,7 @@ if ( param('saveIoConfig') ) {
 	my $input_prefixLength=length(param('input_prefix'));
 	if($input_prefixLength <=0){
 		$messagetype = "error";
-		$inputPrefixErrorMessage = "Das Feld darf nicht leer sein!";
+		$inputPrefixErrorMessage = "Het veld mag niet leeg zijn!";
 		$inputPrefixErrorClass = "error";
 	}
 	$pcfg->param("INPUTS.PREFIX", param('input_prefix'));
@@ -100,10 +100,10 @@ if ( param('saveIoConfig') ) {
 	if($messagetype ne("error")){
 		$pcfg->save();
   		system($^X, "$lbpbindir/inoutpinconfig.pl");
-  		$message = "Eingaben wurden erfolgreich gespeichert";
+  		$message = "Succesvol opgeslagen";
   		$messagetype = "info";
 	} else{
-		$message = "Fehler beim Speichern. Bitte die Eingaben überprüfen!";
+		$message = "Opslaan mislukt. Controleer uw invoer!";
 	}
 	
 }
@@ -163,7 +163,7 @@ sub createInputOutputConfig{
   my @result;
   my $i;
 
-  for($i=0;$i<$_[0];$i++){
+  for($i=0;$i<=$_[0];$i++){
   	my $value= $pcfg->param("$_[1]$i");
   	my $error = $errormessages{"$_[1]$i"};
   	my $class = "info";;
