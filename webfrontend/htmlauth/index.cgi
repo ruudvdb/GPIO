@@ -63,7 +63,7 @@ if ( param('saveIoConfig') ) {
 	my $currentInputCount;
 	my $currentOutputCount;
 	
-	for($currentInputCount=0; $currentInputCount< $pcfg->param("gpios.inputCount"); $currentInputCount++){
+	for($currentInputCount=0; $currentInputCount<= $pcfg->param("gpios.inputCount"); $currentInputCount++){
 		my $inputValue = param("input$currentInputCount");
 		$pcfg->param("INPUTS.INPUT$currentInputCount", "$inputValue");
 		my $result = &validateGpioUserData($inputValue);
@@ -72,12 +72,12 @@ if ( param('saveIoConfig') ) {
 			$errormessages{"inputs.input$currentInputCount"} = $result;
 		}
 	}
-	for($currentInputCount=0; $currentInputCount< $pcfg->param("gpios.inputCount"); $currentInputCount++){
+	for($currentInputCount=0; $currentInputCount<= $pcfg->param("gpios.inputCount"); $currentInputCount++){
 		my $wiringValue = param("INPUTS.INPUTWIRING$currentInputCount");
 		$pcfg->param("INPUTS.INPUTWIRING$currentInputCount", "$wiringValue");
 	}
 	
-	for( $currentOutputCount=0; $currentOutputCount< $pcfg->param("gpios.outputCount"); $currentOutputCount++){
+	for( $currentOutputCount=0; $currentOutputCount<= $pcfg->param("gpios.outputCount"); $currentOutputCount++){
 		my $outputValue = param("output$currentOutputCount");
 		$pcfg->param("outputs.output$currentOutputCount", "$outputValue");
 		my $result = &validateGpioUserData($outputValue);
