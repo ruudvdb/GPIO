@@ -73,7 +73,7 @@
 				                 			</tr>
 				                 			<TMPL_LOOP NAME=number_of_inputs>
 				                 				<tr >
-				                 					<td width="50%" class= "<TMPL_VAR NAME=class> inputlabel">Input <TMPL_VAR NAME=current>:</td>
+				                 					<td width="50%" class= "<TMPL_VAR NAME=class> inputlabel">Input <TMPL_VAR NAME=lbl>:</td>
 				                 					<td width="50%" class= "<TMPL_VAR NAME=class> separatingline">
 				                 						<input type='text' id="input<TMPL_VAR NAME=current>" name="input<TMPL_VAR NAME=current>" value="<TMPL_VAR value>"></input>
 				                 						<p><TMPL_VAR NAME=errormessage></p>
@@ -129,7 +129,7 @@
 				                 			</tr>
 				                 			<TMPL_LOOP NAME=number_of_outputs>
 				                 				<tr>
-				                 					<td width="50%" class= "<TMPL_VAR NAME=class> inputlabel">Output <TMPL_VAR NAME=current>:</td>
+				                 					<td width="50%" class= "<TMPL_VAR NAME=class> inputlabel">Output <TMPL_VAR NAME=lbl>:</td>
 				                 					<td width="50%" class= "<TMPL_VAR NAME=class>">
 				                 						<input type='text' id="output<TMPL_VAR NAME=current>" name="output<TMPL_VAR NAME=current>" value="<TMPL_VAR value>"></input>
 				                 						<p><TMPL_VAR NAME=errormessage></p>
