@@ -118,7 +118,7 @@ sub createSelectArray{
   my $i;
   my $selected ="";
 
-  for($i=0;$i<16;$i++){
+  for($i=0;$i<=16;$i++){
       $selected = "";
       if($i == $_[0]){
         $selected = 'selected';
@@ -188,7 +188,7 @@ sub createInputOutputConfig{
 
 
 
-    if($_[1] eq "outputs.output"){
+        if($_[1] eq "outputs.output"){
 		push @result, {current=>$i,value =>$value, errormessage=>$error, class=>$class, lbl=>$i+1};
 	} else {
 		push @result, {current=>$i,value =>$value, errormessage=>$error, class=>$class, lbl=>$i+1, SELECTLIST =>$wiringselectlist};
