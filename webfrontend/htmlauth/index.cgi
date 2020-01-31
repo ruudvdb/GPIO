@@ -167,38 +167,40 @@ sub createInputOutputConfig{
   my @result;
   my $i;
 
-  for($i=0;$i<=$_[0];$i++){
-  	my $value= $pcfg->param("$_[1]$i");
-  	my $error = $errormessages{"$_[1]$i"};
-  	my $class = "info";;
-  	if($error ne ""){
-  		$class = "error";
-  	}
-  	
-  	my $wiring= $pcfg->param("$_[1]WIRING$i");
-  	my $confwiring= $pcfg->param("$_[1]WIRING$i");
-  	my @wiring = ('d', 'u' );
-  	my %wiringlabels = (
-	      'd' => 'Pulldown',
-	      'u' => 'Pullup',
-	  );
-	my $wiringselectlist = $cgi->popup_menu(
-	      -id	=> 'INPUTS.INPUTWIRING' . $i,
-	      -name    => 'INPUTS.INPUTWIRING' . $i,
-	      -values  => \@wiring,
-	      -labels  => \%wiringlabels,
-	      -default => $confwiring,
-	  );
-    
- 
-    
-    if($_[1] eq "outputs.output"){
-  		push @result, {current=>$i,value =>$value, errormessage=>$error, class=>$class};
-  	} else {
-  		push @result, {current=>$i,value =>$value, errormessage=>$error, class=>$class, SELECTLIST =>$wiringselectlist};
-  	}
-    
-    
+  if ($_[0] > 0) {
+	  for($i=0;$i<=$_[0];$i++){
+		my $value= $pcfg->param("$_[1]$i");
+		my $error = $errormessages{"$_[1]$i"};
+		my $class = "info";;
+		if($error ne ""){
+			$class = "error";
+		}
+
+		my $wiring= $pcfg->param("$_[1]WIRING$i");
+		my $confwiring= $pcfg->param("$_[1]WIRING$i");
+		my @wiring = ('d', 'u' );
+		my %wiringlabels = (
+		      'd' => 'Pulldown',
+		      'u' => 'Pullup',
+		  );
+		my $wiringselectlist = $cgi->popup_menu(
+		      -id	=> 'INPUTS.INPUTWIRING' . $i,
+		      -name    => 'INPUTS.INPUTWIRING' . $i,
+		      -values  => \@wiring,
+		      -labels  => \%wiringlabels,
+		      -default => $confwiring,
+		  );
+
+
+
+	    if($_[1] eq "outputs.output"){
+			push @result, {current=>$i,value =>$value, errormessage=>$error, class=>$class};
+		} else {
+			push @result, {current=>$i,value =>$value, errormessage=>$error, class=>$class, SELECTLIST =>$wiringselectlist};
+		}
+
+
+	  }
   }
   return @result;
 }
