@@ -34,26 +34,25 @@ if(!$msno){
 
 #endless loop
 while(1){
-	if ($pcfg->param("gpios.inputCount") > 0) {
-		for(my $i=0;$i<=$pcfg->param("gpios.inputCount");$i++){
-			my $gpio= $pcfg->param("INPUTS.INPUT$i");
+	for(my $i=0;$i<=$pcfg->param("gpios.inputCount");$i++){
+		my $gpio= $pcfg->param("INPUTS.INPUT$i");
 
-		    my $value = qx {pigs r $gpio};
+	    my $value = qx {pigs r $gpio};
 
-		    my $response;
-		    if($value == 0){
-				$response = LoxBerry::IO::mshttp_send_mem($msno, "$prefix$i", "Off");	    			
-		    } else {
-				$response = LoxBerry::IO::mshttp_send_mem($msno, "$prefix$i", "On");
-		    }
+	    my $response;
+	    if($value == 0){
+			$response = LoxBerry::IO::mshttp_send_mem($msno, "$prefix$i", "Off");	    			
+	    } else {
+			$response = LoxBerry::IO::mshttp_send_mem($msno, "$prefix$i", "On");
+	    }
 
-			if (! $response) {
-			    LOGERR "Error sending to Miniserver";
-			} else {
-			    LOGDEB "Send ok $prefix$i: $value";
-			}
+		if (! $response) {
+		    LOGERR "Error sending to Miniserver";
+		} else {
+		    LOGDEB "Send ok $prefix$i: $value";
 		}
 	}
+	
 	#wenn der Loglevel mehr als Fehler ist (z.b. Debug) wird die Pollzeit aus
 	#Sicherheitsgruenden fest auf 1s fest gesetzt 
 	if($log->loglevel() >3){
