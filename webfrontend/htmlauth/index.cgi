@@ -123,7 +123,7 @@ sub createSelectArray{
       if($i == $_[0]){
         $selected = 'selected';
       } 
-      push @result, {COUNT_LABEL=>$i+1, COUNT=>$i, CHOOSED=>$selected};
+      push @result, {COUNT=>$i, CHOOSED=>$selected};
   }
   return @result;
 }
