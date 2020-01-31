@@ -63,27 +63,31 @@ if ( param('saveIoConfig') ) {
 	my $currentInputCount;
 	my $currentOutputCount;
 	
-	for($currentInputCount=0; $currentInputCount<= $pcfg->param("gpios.inputCount"); $currentInputCount++){
-		my $inputValue = param("input$currentInputCount");
-		$pcfg->param("INPUTS.INPUT$currentInputCount", "$inputValue");
-		my $result = &validateGpioUserData($inputValue);
-		if($result ne("ok")){
-			$messagetype = "error";
-			$errormessages{"inputs.input$currentInputCount"} = $result;
+	if ( $pcfg->param("gpios.inputCount") > 0 ){
+		for($currentInputCount=0; $currentInputCount<= $pcfg->param("gpios.inputCount"); $currentInputCount++){
+			my $inputValue = param("input$currentInputCount");
+			$pcfg->param("INPUTS.INPUT$currentInputCount", "$inputValue");
+			my $result = &validateGpioUserData($inputValue);
+			if($result ne("ok")){
+				$messagetype = "error";
+				$errormessages{"inputs.input$currentInputCount"} = $result;
+			}
+		}
+		for($currentInputCount=0; $currentInputCount<= $pcfg->param("gpios.inputCount"); $currentInputCount++){
+			my $wiringValue = param("INPUTS.INPUTWIRING$currentInputCount");
+			$pcfg->param("INPUTS.INPUTWIRING$currentInputCount", "$wiringValue");
 		}
 	}
-	for($currentInputCount=0; $currentInputCount<= $pcfg->param("gpios.inputCount"); $currentInputCount++){
-		my $wiringValue = param("INPUTS.INPUTWIRING$currentInputCount");
-		$pcfg->param("INPUTS.INPUTWIRING$currentInputCount", "$wiringValue");
-	}
 	
-	for( $currentOutputCount=0; $currentOutputCount<= $pcfg->param("gpios.outputCount"); $currentOutputCount++){
-		my $outputValue = param("output$currentOutputCount");
-		$pcfg->param("outputs.output$currentOutputCount", "$outputValue");
-		my $result = &validateGpioUserData($outputValue);
-		if($result ne("ok")){
-			$messagetype = "error";
-			$errormessages{"outputs.output$currentOutputCount"} = $result;
+	if ( $pcfg->param("gpios.outputCount") > 0 ){
+		for( $currentOutputCount=0; $currentOutputCount<= $pcfg->param("gpios.outputCount"); $currentOutputCount++){
+			my $outputValue = param("output$currentOutputCount");
+			$pcfg->param("outputs.output$currentOutputCount", "$outputValue");
+			my $result = &validateGpioUserData($outputValue);
+			if($result ne("ok")){
+				$messagetype = "error";
+				$errormessages{"outputs.output$currentOutputCount"} = $result;
+			}
 		}
 	}
 	
