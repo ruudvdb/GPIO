@@ -63,31 +63,27 @@ if ( param('saveIoConfig') ) {
 	my $currentInputCount;
 	my $currentOutputCount;
 	
-	if ( $pcfg->param("gpios.inputCount") > 0 ){
-		for($currentInputCount=0; $currentInputCount<= $pcfg->param("gpios.inputCount"); $currentInputCount++){
-			my $inputValue = param("input$currentInputCount");
-			$pcfg->param("INPUTS.INPUT$currentInputCount", "$inputValue");
-			my $result = &validateGpioUserData($inputValue);
-			if($result ne("ok")){
-				$messagetype = "error";
-				$errormessages{"inputs.input$currentInputCount"} = $result;
-			}
-		}
-		for($currentInputCount=0; $currentInputCount<= $pcfg->param("gpios.inputCount"); $currentInputCount++){
-			my $wiringValue = param("INPUTS.INPUTWIRING$currentInputCount");
-			$pcfg->param("INPUTS.INPUTWIRING$currentInputCount", "$wiringValue");
+	for($currentInputCount=0; $currentInputCount<= $pcfg->param("gpios.inputCount"); $currentInputCount++){
+		my $inputValue = param("input$currentInputCount");
+		$pcfg->param("INPUTS.INPUT$currentInputCount", "$inputValue");
+		my $result = &validateGpioUserData($inputValue);
+		if($result ne("ok")){
+			$messagetype = "error";
+			$errormessages{"inputs.input$currentInputCount"} = $result;
 		}
 	}
+	for($currentInputCount=0; $currentInputCount<= $pcfg->param("gpios.inputCount"); $currentInputCount++){
+		my $wiringValue = param("INPUTS.INPUTWIRING$currentInputCount");
+		$pcfg->param("INPUTS.INPUTWIRING$currentInputCount", "$wiringValue");
+	}
 	
-	if ( $pcfg->param("gpios.outputCount") > 0 ){
-		for( $currentOutputCount=0; $currentOutputCount<= $pcfg->param("gpios.outputCount"); $currentOutputCount++){
-			my $outputValue = param("output$currentOutputCount");
-			$pcfg->param("outputs.output$currentOutputCount", "$outputValue");
-			my $result = &validateGpioUserData($outputValue);
-			if($result ne("ok")){
-				$messagetype = "error";
-				$errormessages{"outputs.output$currentOutputCount"} = $result;
-			}
+	for( $currentOutputCount=0; $currentOutputCount<= $pcfg->param("gpios.outputCount"); $currentOutputCount++){
+		my $outputValue = param("output$currentOutputCount");
+		$pcfg->param("outputs.output$currentOutputCount", "$outputValue");
+		my $result = &validateGpioUserData($outputValue);
+		if($result ne("ok")){
+			$messagetype = "error";
+			$errormessages{"outputs.output$currentOutputCount"} = $result;
 		}
 	}
 	
@@ -122,12 +118,12 @@ sub createSelectArray{
   my $i;
   my $selected ="";
 
-  for($i=0;$i<=15;$i++){
+  for($i=0;$i<16;$i++){
       $selected = "";
       if($i == $_[0]){
         $selected = 'selected';
       } 
-      push @result, {COUNT=>$i, CHOOSED=>$selected};
+      push @result, {COUNT=>$i+1, CHOOSED=>$selected};
   }
   return @result;
 }
@@ -166,42 +162,41 @@ sub samplingRates{
 sub createInputOutputConfig{
   my @result;
   my $i;
+  
+  for($i=0;$i<$_[0];$i++){
+	my $value= $pcfg->param("$_[1]$i");
+	my $error = $errormessages{"$_[1]$i"};
+	my $class = "info";;
+	if($error ne ""){
+		$class = "error";
+	}
 
-  if ($_[0] > 0) {
-	  for($i=0;$i<=$_[0];$i++){
-		my $value= $pcfg->param("$_[1]$i");
-		my $error = $errormessages{"$_[1]$i"};
-		my $class = "info";;
-		if($error ne ""){
-			$class = "error";
-		}
-
-		my $wiring= $pcfg->param("$_[1]WIRING$i");
-		my $confwiring= $pcfg->param("$_[1]WIRING$i");
-		my @wiring = ('d', 'u' );
-		my %wiringlabels = (
-		      'd' => 'Pulldown',
-		      'u' => 'Pullup',
-		  );
-		my $wiringselectlist = $cgi->popup_menu(
-		      -id	=> 'INPUTS.INPUTWIRING' . $i,
-		      -name    => 'INPUTS.INPUTWIRING' . $i,
-		      -values  => \@wiring,
-		      -labels  => \%wiringlabels,
-		      -default => $confwiring,
-		  );
-
+	my $wiring= $pcfg->param("$_[1]WIRING$i");
+	my $confwiring= $pcfg->param("$_[1]WIRING$i");
+	my @wiring = ('d', 'u' );
+	my %wiringlabels = (
+	      'd' => 'Pulldown',
+	      'u' => 'Pullup',
+	  );
+	my $wiringselectlist = $cgi->popup_menu(
+	      -id	=> 'INPUTS.INPUTWIRING' . $i,
+	      -name    => 'INPUTS.INPUTWIRING' . $i,
+	      -values  => \@wiring,
+	      -labels  => \%wiringlabels,
+	      -default => $confwiring,
+	  );
 
 
-	    if($_[1] eq "outputs.output"){
-			push @result, {current=>$i,value =>$value, errormessage=>$error, class=>$class};
-		} else {
-			push @result, {current=>$i,value =>$value, errormessage=>$error, class=>$class, SELECTLIST =>$wiringselectlist};
-		}
+
+    if($_[1] eq "outputs.output"){
+		push @result, {current=>$i,value =>$value, errormessage=>$error, class=>$class};
+	} else {
+		push @result, {current=>$i,value =>$value, errormessage=>$error, class=>$class, SELECTLIST =>$wiringselectlist};
+	}
 
 
-	  }
   }
+
   return @result;
 }
 
