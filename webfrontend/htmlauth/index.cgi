@@ -189,9 +189,9 @@ sub createInputOutputConfig{
 
 
     if($_[1] eq "outputs.output"){
-		push @result, {current=>$i,value =>$value, errormessage=>$error, class=>$class};
+		push @result, {current=>$i,value =>$value, errormessage=>$error, class=>$class, lbl=>$i+1};
 	} else {
-		push @result, {current=>$i,value =>$value, errormessage=>$error, class=>$class, SELECTLIST =>$wiringselectlist};
+		push @result, {current=>$i,value =>$value, errormessage=>$error, class=>$class, lbl=>$i+1, SELECTLIST =>$wiringselectlist};
 	}
 
 
