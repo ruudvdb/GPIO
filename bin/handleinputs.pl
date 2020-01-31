@@ -34,7 +34,7 @@ if(!$msno){
 
 #endless loop
 while(1){
-	for(my $i=0;$i<=$pcfg->param("gpios.inputCount");$i++){
+	for(my $i=0;$i<$pcfg->param("gpios.inputCount");$i++){
 		my $gpio= $pcfg->param("INPUTS.INPUT$i");
 
 	    my $value = qx {pigs r $gpio};
