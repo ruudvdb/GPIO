@@ -17,27 +17,23 @@ my $pcfg = new Config::Simple("$lbpconfigdir/pluginconfig.cfg");
 my $i;
 
 # set up GPIOs as outputs
-if ($pcfg->param("gpios.outputCount") > 0){
-	for($i=0;$i<=$pcfg->param("gpios.outputCount");$i++){
-		my $value= $pcfg->param("outputs.output$i");
-	    system("pigs modes $value w");
-	}
+for($i=0;$i<$pcfg->param("gpios.outputCount");$i++){
+	my $value= $pcfg->param("outputs.output$i");
+    system("pigs modes $value w");
 }
 
 # set up GPIOs as inputs
-if ($pcfg->param("gpios.inputCount") > 0){
-	for($i=0;$i<=$pcfg->param("gpios.inputCount");$i++){
-		my $gpio = $pcfg->param("INPUTS.INPUT$i");
-	    system("pigs modes $gpio r");
-	    LOGDEB "pigs modes $gpio r";
-	    # set up input pullups and downs
-	    my $wiring= $pcfg->param("INPUTS.INPUTWIRING$i");
-	    if(!$wiring){
-			$wiring = "d";
-		}
-		system("pigs pud $gpio $wiring");
-		LOGDEB "pigs pud $gpio $wiring";
+for($i=0;$i<      $pcfg->param("gpios.inputCount");$i++){
+	my $gpio = $pcfg->param("INPUTS.INPUT$i");
+    system("pigs modes $gpio r");
+    LOGDEB "pigs modes $gpio r";
+    # set up input pullups and downs
+    my $wiring= $pcfg->param("INPUTS.INPUTWIRING$i");
+    if(!$wiring){
+		$wiring = "d";
 	}
+	system("pigs pud $gpio $wiring");
+	LOGDEB "pigs pud $gpio $wiring";
 }
 
 exit;
