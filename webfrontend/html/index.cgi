@@ -35,8 +35,8 @@ sub swichChannel{
 	my $name = $_[0];
 	my $value = $_[1];
 	
-	LOGDEB "test"
-	LOGDEB "$name :: $value"
+	LOGDEB "test";
+	LOGDEB "$name :: $value";
 	
 	if(substr($name, 0, 1) ne "o"){
 		$buf .="<p>The given parameter $name is not allowed! Please check your parameter config!</p>";
