@@ -2,7 +2,6 @@
 
 use LoxBerry::System;
 use LoxBerry::Web;
-use LoxBerry::Log;
 use File::HomeDir;
 use CGI qw/:standard/;  
 use strict;
@@ -12,8 +11,6 @@ my $buf;
 
 my $home = File::HomeDir->my_home;
 my $pcfg = new Config::Simple("$lbpconfigdir/pluginconfig.cfg");
-
-my $log = LoxBerry::Log->new ( name => 'daemon', addtime => 1 );
 
 my $query = new CGI;
 
@@ -34,9 +31,6 @@ foreach $name ( @names ) {
 sub swichChannel{
 	my $name = $_[0];
 	my $value = $_[1];
-	
-	LOGDEB "test";
-	LOGDEB "$name :: $value";
 	
 	if(substr($name, 0, 1) ne "o"){
 		$buf .="<p>The given parameter $name is not allowed! Please check your parameter config!</p>";
